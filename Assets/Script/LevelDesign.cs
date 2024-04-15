@@ -27,9 +27,7 @@ public class LevelDesign : EditorWindow
     string heightstr = "";
     int width = 0;
     int height = 0;
-
-    HexCell[] cellPrefabList;
-    HexCell[] cells;
+    HexCell[,] cells;
     
     void OnEnable()
     {
@@ -85,16 +83,36 @@ public class LevelDesign : EditorWindow
                 }
             }
         }
+        //选择预制体
+        ChoosePrefab();
+        if (GUILayout.Button("替换地块")){
+            HexCell deleteObj = UnityEditor.Selection.gameObjects[0].GetComponent<HexCell>();
+            string name = deleteObj.name;
+            Vector3 pos = deleteObj.transform.position;
+            Quaternion rot = deleteObj.transform.rotation;
+            int x = deleteObj.HeightIndex;
+            int y = deleteObj.WidthIndex;
+            int index = deleteObj.transform.GetSiblingIndex();
+            DestroyImmediate(deleteObj.gameObject);
+            GameObject gridmanager = GameObject.Find("GridManager");
+            HexCell cell = Instantiate(prefab,pos,rot,gridmanager.transform).GetComponent<HexCell>();
+            cells[x,y] = cell;
+            cell.gameObject.name = name;
+            Canvas canvas = cell.GetComponentInChildren<Canvas>();
+            TMP_Text text = canvas.transform.GetChild(0).GetComponent<TMP_Text>();
+            text.text = x.ToString() + "\n" + y.ToString();
+            cell.transform.SetSiblingIndex(index);
+        }
     }
 
      private void CreateCells()
     {
-        cells = new HexCell[width * height];
-        for (int z = 0, i = 0; z < width; z++)
+        cells = new HexCell[height,width];
+        for (int y = 0, i = 0; y < width; y++)
         {
             for (int x = 0; x < height; x++)
             {
-                CreateOneCell(x, z, i++);
+                CreateOneCell(x, y, i++);
             }
         }
     }
@@ -105,8 +123,9 @@ public class LevelDesign : EditorWindow
         position.y = (x + y * 0.5f - y /2) *(Hex.innerRadius * 2f);
         position.x = y * Hex.outerRadius * 1.5f;
         position.z = 0 ;
-        HexCell cell = cells[i] = Instantiate(prefab).GetComponent<HexCell>();
-        
+        HexCell cell = cells[x,y] = Instantiate(prefab).GetComponent<HexCell>();
+        cell.WidthIndex = y;
+        cell.HeightIndex = x;
             
         cell.name = y.ToString() + " " + x.ToString();
         Canvas canvas = cell.GetComponentInChildren<Canvas>();
@@ -118,7 +137,7 @@ public class LevelDesign : EditorWindow
     }
 
     void ChoosePrefab(){
-          EditorGUI.BeginChangeCheck();
+        EditorGUI.BeginChangeCheck();
         selectedIndex = EditorGUILayout.Popup("Prefab", selectedIndex, prefabNames);
         if (EditorGUI.EndChangeCheck())
         {
