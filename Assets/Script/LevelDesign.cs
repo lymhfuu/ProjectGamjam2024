@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using TMPro;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class LevelDesign : EditorWindow
 {
@@ -86,7 +87,12 @@ public class LevelDesign : EditorWindow
         //选择预制体
         ChoosePrefab();
         if (GUILayout.Button("替换地块")){
-            HexCell deleteObj = UnityEditor.Selection.gameObjects[0].GetComponent<HexCell>();
+            if( UnityEditor.Selection.transforms.Length == 0)
+            {
+                Debug.LogError("请选中一个地块");
+                return;
+            }
+            HexCell deleteObj = UnityEditor.Selection.transforms[0].GetComponent<HexCell>();
             string name = deleteObj.name;
             Vector3 pos = deleteObj.transform.position;
             Quaternion rot = deleteObj.transform.rotation;
@@ -98,6 +104,8 @@ public class LevelDesign : EditorWindow
             HexCell cell = Instantiate(prefab,pos,rot,gridmanager.transform).GetComponent<HexCell>();
             cells[x,y] = cell;
             cell.gameObject.name = name;
+            cell.WidthIndex = y;
+            cell.HeightIndex = x;
             Canvas canvas = cell.GetComponentInChildren<Canvas>();
             TMP_Text text = canvas.transform.GetChild(0).GetComponent<TMP_Text>();
             text.text = x.ToString() + "\n" + y.ToString();
