@@ -70,7 +70,7 @@ crashlytics-build.properties
 
 # Mac files
 .DS_Store*
-
+.vscode/
 # Windows files
 Thumbs.db
 Desktop.ini 作者：左将军领徐州牧儒东侯 https://www.bilibili.com/read/cv19319343?from=articleDetail 出处：bilibili
