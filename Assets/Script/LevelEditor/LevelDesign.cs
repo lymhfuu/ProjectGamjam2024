@@ -14,7 +14,7 @@ public class LevelDesign : EditorWindow
         EditorWindow.GetWindow(typeof(LevelDesign));
     }
 
-    
+
     // 用于存储找到的预制体名称
     private string[] prefabNames;
     // 用于存储找到的预制体路径
@@ -29,11 +29,11 @@ public class LevelDesign : EditorWindow
     int width = 0;
     int height = 0;
     HexCell[,] cells;
-    
+
     void OnEnable()
     {
         // 查找所有预制体
-        string[] guids = AssetDatabase.FindAssets("t:GameObject", new[] {"Assets/Prefab"});
+        string[] guids = AssetDatabase.FindAssets("t:GameObject", new[] { "Assets/Prefab" });
         prefabPaths = new string[guids.Length];
         prefabNames = new string[guids.Length];
 
@@ -48,18 +48,19 @@ public class LevelDesign : EditorWindow
     void OnGUI()
     {
         GUILayout.Label("Select a Prefab", EditorStyles.boldLabel);
-        
+
         //选择预制体
         ChoosePrefab();
-        
+
         //选择地图宽度和高度
         SelectWidthAndHeight();
 
-       
+
 
         if (GUILayout.Button("创建地图"))
         {
-            if(prefab != null){
+            if (prefab != null)
+            {
                 CreateCells();
             }
         }
@@ -75,7 +76,7 @@ public class LevelDesign : EditorWindow
                 foreach (Transform child in gridManager.transform)
                 {
                     children.Add(child.gameObject);
-                }      
+                }
 
                 // 然后在另一个循环中删除它们
                 foreach (GameObject child in children)
@@ -86,8 +87,9 @@ public class LevelDesign : EditorWindow
         }
         //选择预制体
         ChoosePrefab();
-        if (GUILayout.Button("替换地块")){
-            if( UnityEditor.Selection.transforms.Length == 0)
+        if (GUILayout.Button("替换地块"))
+        {
+            if (UnityEditor.Selection.transforms.Length == 0)
             {
                 Debug.LogError("请选中一个地块");
                 return;
@@ -101,8 +103,8 @@ public class LevelDesign : EditorWindow
             int index = deleteObj.transform.GetSiblingIndex();
             DestroyImmediate(deleteObj.gameObject);
             GameObject gridmanager = GameObject.Find("GridManager");
-            HexCell cell = Instantiate(prefab,pos,rot,gridmanager.transform).GetComponent<HexCell>();
-            cells[x,y] = cell;
+            HexCell cell = Instantiate(prefab, pos, rot, gridmanager.transform).GetComponent<HexCell>();
+            cells[x, y] = cell;
             cell.gameObject.name = name;
             cell.WidthIndex = y;
             cell.HeightIndex = x;
@@ -111,11 +113,32 @@ public class LevelDesign : EditorWindow
             text.text = x.ToString() + "\n" + y.ToString();
             cell.transform.SetSiblingIndex(index);
         }
+
+        if (GUILayout.Button("保存地图"))
+        {
+
+            Mapdata map = ScriptableObject.CreateInstance<Mapdata>();
+            map.height = cells.GetLength(0);
+            map.width = cells.GetLength(1);
+            map.cells = new HexType[map.height * map.width];
+            for (int y = 0, i = 0; y < map.width; y++)
+            {
+                for (int x = 0; x < map.height; x++)
+                {
+                    map.cells[i++] = cells[x, y].Type;
+                }
+            }
+            AssetDatabase.CreateAsset(map, @"Assets/ScriptableObject/map1.asset");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
     }
 
-     private void CreateCells()
+
+
+    private void CreateCells()
     {
-        cells = new HexCell[height,width];
+        cells = new HexCell[height, width];
         for (int y = 0, i = 0; y < width; y++)
         {
             for (int x = 0; x < height; x++)
@@ -128,13 +151,13 @@ public class LevelDesign : EditorWindow
     void CreateOneCell(int x, int y, int i)
     {
         Vector3 position;
-        position.y = (x + y * 0.5f - y /2) *(Hex.innerRadius * 2f);
+        position.y = (x + y * 0.5f - y / 2) * (Hex.innerRadius * 2f);
         position.x = y * Hex.outerRadius * 1.5f;
-        position.z = 0 ;
-        HexCell cell = cells[x,y] = Instantiate(prefab).GetComponent<HexCell>();
+        position.z = 0;
+        HexCell cell = cells[x, y] = Instantiate(prefab).GetComponent<HexCell>();
         cell.WidthIndex = y;
         cell.HeightIndex = x;
-            
+
         cell.name = y.ToString() + " " + x.ToString();
         Canvas canvas = cell.GetComponentInChildren<Canvas>();
         TMP_Text text = canvas.transform.GetChild(0).GetComponent<TMP_Text>();
@@ -144,24 +167,27 @@ public class LevelDesign : EditorWindow
         cell.transform.localPosition = position;
     }
 
-    void ChoosePrefab(){
+    void ChoosePrefab()
+    {
         EditorGUI.BeginChangeCheck();
         selectedIndex = EditorGUILayout.Popup("Prefab", selectedIndex, prefabNames);
         if (EditorGUI.EndChangeCheck())
         {
             // 当选择变化时的逻辑，例如加载并显示选中的预制体
             Debug.Log($"Selected prefab: {prefabNames[selectedIndex]} at path: {prefabPaths[selectedIndex]}");
-            
+
             // 示例：在场景中实例化选中的预制体
             prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPaths[selectedIndex]);
             //PrefabUtility.InstantiatePrefab(prefab);
         }
     }
 
-    void SelectWidthAndHeight(){
-        widthstr = EditorGUILayout.TextField ("地图宽度", widthstr);
-        heightstr = EditorGUILayout.TextField ("地图高度", heightstr);
-        if(widthstr != "" && heightstr != "") {
+    void SelectWidthAndHeight()
+    {
+        widthstr = EditorGUILayout.TextField("地图宽度", widthstr);
+        heightstr = EditorGUILayout.TextField("地图高度", heightstr);
+        if (widthstr != "" && heightstr != "")
+        {
             width = int.Parse(widthstr);
             height = int.Parse(heightstr);
         }

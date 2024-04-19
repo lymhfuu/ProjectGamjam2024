@@ -1,9 +1,11 @@
+using System.Security.AccessControl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Build;
 using UnityEngine;
 
+[System.Serializable]
 public class HexCell : MonoBehaviour
 {
     private int  _widthIndex = 0;
@@ -74,6 +76,11 @@ public class HexCell : MonoBehaviour
         {
            _occupyObject = value;
         }  
+    }
+
+    public HexCell()
+    {
+        _type = HexType.Empty;
     }
 }
 
