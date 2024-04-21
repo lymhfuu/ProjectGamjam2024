@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using UnityEditor.Build;
 using UnityEngine;
 
-[System.Serializable]
 public class HexCell : MonoBehaviour
 {
-    private int  _widthIndex = 0;
-    public int  WidthIndex
+    private int _widthIndex = 0;
+    public int WidthIndex
     {
         get
         {
@@ -18,12 +17,12 @@ public class HexCell : MonoBehaviour
 
         set
         {
-           _widthIndex = value;
-        }  
-    } 
+            _widthIndex = value;
+        }
+    }
 
-    private int  _heightIndex = 0;
-    public int  HeightIndex
+    private int _heightIndex = 0;
+    public int HeightIndex
     {
         get
         {
@@ -32,11 +31,11 @@ public class HexCell : MonoBehaviour
 
         set
         {
-           _heightIndex = value;
-        }  
-    } 
+            _heightIndex = value;
+        }
+    }
 
-    private Vector2  _pos = Vector2.zero;
+    private Vector2 _pos = Vector2.zero;
     public Vector2 Pos
     {
         get
@@ -46,8 +45,8 @@ public class HexCell : MonoBehaviour
 
         set
         {
-           _pos = value;
-        }  
+            _pos = value;
+        }
     }
 
     private HexType _type = HexType.Empty;
@@ -60,8 +59,8 @@ public class HexCell : MonoBehaviour
 
         set
         {
-           _type = value;
-        }  
+            _type = value;
+        }
     }
 
     private GameObject _occupyObject = null;
@@ -74,8 +73,8 @@ public class HexCell : MonoBehaviour
 
         set
         {
-           _occupyObject = value;
-        }  
+            _occupyObject = value;
+        }
     }
 
     public HexCell()

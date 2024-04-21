@@ -8,7 +8,7 @@ using System.Linq;
 
 public class LevelDesign : EditorWindow
 {
-    [MenuItem("Window/Level Editor")]
+    [MenuItem("Window/Level Design")]
     public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(LevelDesign));
@@ -136,7 +136,7 @@ public class LevelDesign : EditorWindow
 
 
 
-    private void CreateCells()
+    void CreateCells()
     {
         cells = new HexCell[height, width];
         for (int y = 0, i = 0; y < width; y++)
