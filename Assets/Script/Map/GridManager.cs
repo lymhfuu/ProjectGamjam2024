@@ -12,6 +12,7 @@ public class GridManager : MonoBehaviour
     HexCell[,] cells;
     int height;
     int width;
+
     // Start is called before the first frame update
     void Start()
     {
