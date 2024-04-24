@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    //这是一个提交测试
-    //来自lym
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }
