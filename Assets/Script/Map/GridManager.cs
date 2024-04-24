@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEditor;
+using Game.Util;
+using System.IO;
 
 public class GridManager : MonoSingleton<GridManager>
 {
@@ -28,7 +30,8 @@ public class GridManager : MonoSingleton<GridManager>
     // Start is called before the first frame update
     void Start()
     {
-        mapData = AssetDatabase.LoadAssetAtPath<Mapdata>(@"Assets/ScriptableObject/map1.asset");
+        string json = File.ReadAllText("Assets/Resources/MapData/MapData.json");
+        mapData = JsonUtil.ToObject<Mapdata>(json);
         width = mapData.width;
         height = mapData.height;
         CreateCells();
