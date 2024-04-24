@@ -27,7 +27,7 @@ namespace Game.Model
     {
         public string name;                    //敌人名称
         public MaterialColor[] material;       //合成材料
-        public MaterialType specialMaterial;//特殊材料
+        public Drop specialMaterial;           //特殊材料
         public EffectType effectType;          //类型
         public string description;             //效果
 
