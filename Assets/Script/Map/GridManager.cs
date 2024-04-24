@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEditor;
 
-public class GridManager : MonoBehaviour
+public class GridManager : MonoSingleton<GridManager>
 {
 
     Mapdata mapData;
@@ -12,6 +12,18 @@ public class GridManager : MonoBehaviour
     HexCell[,] cells;
     int height;
     int width;
+
+    public HexCell[,] hexCells
+    {
+        get
+        {
+            return cells;
+        }
+        private set
+        {
+
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
