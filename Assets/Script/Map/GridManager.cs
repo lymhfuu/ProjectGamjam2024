@@ -5,11 +5,15 @@ using TMPro;
 using UnityEditor;
 using Game.Util;
 using System.IO;
+using Game;
+using Game.System;
+using UnityEditor.Timeline;
 
 public class GridManager : MonoSingleton<GridManager>
 {
 
     Mapdata mapData;
+    MapSystem mapSystem;
     public List<GameObject> prefabList;
     HexCell[,] cells;
     int height;
@@ -30,8 +34,8 @@ public class GridManager : MonoSingleton<GridManager>
     // Start is called before the first frame update
     void Start()
     {
-        string json = File.ReadAllText("Assets/Resources/MapData/MapData.json");
-        mapData = JsonUtil.ToObject<Mapdata>(json);
+        mapSystem = GameBody.GetSystem<MapSystem>();
+        mapData = mapSystem.LoadMap();
         width = mapData.width;
         height = mapData.height;
         CreateCells();
