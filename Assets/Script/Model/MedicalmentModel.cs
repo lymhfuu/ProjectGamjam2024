@@ -13,12 +13,18 @@ namespace Game.Model
 
     public enum EffectType
     {
-        DirectHurt,
-        Controller,
+        Damage,
+        ChangeValue,
         Buff,
-        ContinueHurt,
-        ContinueEffect,
-        ChangeEnv
+        Skill,
+        Action,
+        NULL
+    }
+
+    public struct SyntheticMedical
+    {
+        public MaterialColor m1;
+        public MaterialColor m2;
     }
     /// <summary>
     /// 药剂
@@ -26,9 +32,11 @@ namespace Game.Model
     public class MedicalmentModel : BaseModel
     {
         public string name;                    //敌人名称
-        public MaterialColor[] material;       //合成材料
-        public Drop specialMaterial;           //特殊材料
+        public SyntheticMedical materialA;     //合成材料A
+        public SyntheticMedical materialB;     //合成材料A
+        public MaterialType specialMaterial;   //特殊材料
         public EffectType effectType;          //类型
+        public int[] skillValue;                //技能数值
         public string description;             //效果
 
         public override void InitModel()

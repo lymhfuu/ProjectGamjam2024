@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Model
 {
-    public enum Drop
+    public enum MaterialType
     {
         A,
         B,
@@ -40,7 +40,7 @@ namespace Game.Model
         public int RangeRight;         //范围结束
         public string skillDescription;//技能描述
         public int useSkill;           //消耗行动力
-        public Drop dropMaterial;      //材料掉落
+        public MaterialType dropMaterial;      //材料掉落
 
         public override void InitModel()
         {
