@@ -62,5 +62,20 @@ namespace Managers
             }
             UIResources[typeof(T)].instance.SetActive(false);
         }
+
+        public static T Get<T>() where T : BasePanel
+        {
+            if (!UIResources.ContainsKey(typeof(T)))
+            {
+                Debug.LogError("Close:" + typeof(T) + " 没有在UIManager注册");
+                return default;
+            }
+            if (UIResources[typeof(T)].instance == null)
+            {
+                Debug.LogError("Close:" + typeof(T) + " 没有初始化");
+                return default;
+            }
+            return UIResources[typeof(T)].instance.GetComponent<T>();
+        }
     }
 }
