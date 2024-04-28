@@ -32,6 +32,7 @@ namespace Game.Model
         public string name;            //敌人名称
         public EntityType entityType;  //单位类型
         public int hp;                 //血量
+        public int Attack;             //攻击力
         public int moveTimes;          //行动点
         public int stepLength;         //移动力
         public int watchRange;         //警觉范围

@@ -25,17 +25,19 @@ namespace Game.Model
     {
         public MaterialColor m1;
         public MaterialColor m2;
+        public MaterialType mt;
     }
     /// <summary>
     /// 药剂
     /// </summary>
     public class MedicalmentModel : BaseModel
     {
-        public string name;                    //敌人名称
-        public SyntheticMedical materialA;     //合成材料A
-        public SyntheticMedical materialB;     //合成材料A
-        public MaterialType specialMaterial;   //特殊材料
-        public EffectType effectType;          //类型
+        public int id;                         //药剂id
+        public string name;                    //药剂名称
+        public string materialA;     //合成材料A
+        public string materialB;     //合成材料B
+        public string specialMaterial;   //特殊材料
+        public string effectType;          //类型
         public int[] skillValue;                //技能数值
         public string description;             //效果
 
