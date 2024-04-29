@@ -37,7 +37,7 @@ namespace Game.Model
         public int stepLength;         //移动力
         public int watchRange;         //警觉范围
         public AttackType attackType;  //攻击类型
-        public int rangeLeft;          //范围开始
+        public int RangeLeft;          //范围开始
         public int RangeRight;         //范围结束
         public string skillDescription;//技能描述
         public int useSkill;           //消耗行动力

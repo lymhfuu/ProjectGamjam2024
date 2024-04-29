@@ -11,19 +11,16 @@ public struct Medicalment
 }
 public class Player : BaseEntity
 {
-    private AttackUnitModel model;
     private Medicalment myMedicalment;
 
-    public Player(AttackUnitModel atm)
+    public Player(string name="Player")
     {
-        this.model = atm;
-        this.CurHP = model.hp;
-        this.Attack = model.Attack;
+        this.SetModel(name);
     }
     
     public void SynthesisMedicalment(SyntheticMedical sm,MaterialType mt)
     {
-        this.leavesMoveTimes--;
+        this.restMoveTimes--;
     }
 
 
@@ -35,6 +32,6 @@ public class Player : BaseEntity
 
     public void ReleaseMedicalment(BaseEntity target)
     {
-        this.leavesMoveTimes--;
+        this.restMoveTimes--;
     }
 }

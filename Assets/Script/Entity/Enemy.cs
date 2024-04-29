@@ -5,14 +5,10 @@ using UnityEngine;
 
 public class Enemy : BaseEntity
 {
-    private AttackUnitModel model;
-    private Medicalment myMedicalment;
 
-    public Enemy(AttackUnitModel atm)
+    public Enemy(string name)
     {
-        this.model = atm;
-        this.CurHP = model.hp;
-        this.Attack = model.Attack;
+        this.SetModel(name);
     }
 
     public override void UseSkill(BaseEntity target)
